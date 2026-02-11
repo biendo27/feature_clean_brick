@@ -2,6 +2,11 @@
 
 All notable changes to this brick will be documented in this file.
 
+## 1.0.1 - 2026-02-11
+
+- Updated BrickHub release metadata to use repository `https://github.com/biendo27/feature_clean_brick`.
+- Maintained compatibility with `flutter_dcore` projects and existing prompts.
+
 ## 1.0.0 - 2026-02-11
 
 - Initial public release on BrickHub.
