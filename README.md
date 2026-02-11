@@ -15,9 +15,9 @@ A Mason brick for generating Clean Architecture feature modules for Flutter proj
 
 ## Project Links
 
-- Repository: https://github.com/revolutiond/feature_clean_brick
-- Issue tracker: https://github.com/revolutiond/feature_clean_brick/issues
-- Documentation: https://github.com/revolutiond/feature_clean_brick#readme
+- Repository: https://github.com/biendo27/feature_clean_brick
+- Issue tracker: https://github.com/biendo27/feature_clean_brick/issues
+- Documentation: https://github.com/biendo27/feature_clean_brick#readme
 
 ## Prerequisites
 
@@ -40,7 +40,7 @@ mason add feature_clean
 
 ```bash
 mason add feature_clean \
-  --git-url https://github.com/revolutiond/feature_clean_brick.git \
+  --git-url https://github.com/biendo27/feature_clean_brick.git \
   --git-ref v1.0.0
 ```
 

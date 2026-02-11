@@ -8,7 +8,7 @@ mason add feature_clean
 
 # Or from Git source
 mason add feature_clean \
-  --git-url https://github.com/revolutiond/feature_clean_brick.git \
+  --git-url https://github.com/biendo27/feature_clean_brick.git \
   --git-ref v1.0.0
 ```
 

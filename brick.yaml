@@ -1,7 +1,7 @@
 name: feature_clean
 description: A Mason brick for generating Clean Architecture feature modules with flatter structure
 version: 1.0.0
-repository: https://github.com/revolutiond/feature_clean_brick
+repository: https://github.com/biendo27/feature_clean_brick
 
 vars:
   app_package_name:
