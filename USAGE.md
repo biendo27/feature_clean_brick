@@ -9,7 +9,7 @@ mason add feature_clean
 # Or from Git source
 mason add feature_clean \
   --git-url https://github.com/biendo27/feature_clean_brick.git \
-  --git-ref v1.0.0
+  --git-ref v1.1.0
 ```
 
 ## Generate
@@ -48,3 +48,9 @@ dart run build_runner build --delete-conflicting-outputs
 ## Important note
 
 This brick is designed for Flutter apps using `flutter_dcore` base types and conventions.
+
+Generated module conventions:
+- Domain usecases implement `BaseUseCase<Params, Result>`.
+- State file location is mode-aware:
+  - `use_bloc = true`: `presentation/blocs/<feature>_state.dart`
+  - `use_bloc = false`: `presentation/cubits/<feature>_state.dart`

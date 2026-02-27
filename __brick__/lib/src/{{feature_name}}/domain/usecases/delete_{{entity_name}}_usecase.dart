@@ -1,7 +1,7 @@
 {{#include_domain_layer}}{{#has_delete}}part of '../../{{#snakeCase}}{{feature_name}}{{/snakeCase}}.dart';
 
 @lazySingleton
-class Delete{{#pascalCase}}{{entity_name}}{{/pascalCase}}UseCase implements UseCaseWithParams<String, Unit> {
+class Delete{{#pascalCase}}{{entity_name}}{{/pascalCase}}UseCase implements BaseUseCase<String, Unit> {
   final I{{#pascalCase}}{{feature_name}}{{/pascalCase}}Repository _repository;
 
   Delete{{#pascalCase}}{{entity_name}}{{/pascalCase}}UseCase(this._repository);

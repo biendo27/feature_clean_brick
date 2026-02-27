@@ -13,7 +13,9 @@ void run(HookContext context) {
 
   final featureSnake = _toSnakeCase(featureName);
   final entitySnake = _toSnakeCase(entityName);
-  final baseDir = Directory(p.join(Directory.current.path, 'lib', 'src', featureName));
+  final baseDir = Directory(
+    p.join(Directory.current.path, 'lib', 'src', featureName),
+  );
 
   if (!baseDir.existsSync()) {
     return;
@@ -39,13 +41,42 @@ void run(HookContext context) {
     }
   }
 
+  void moveFeatureFile(
+    String fromRelativeDirectory,
+    String toRelativeDirectory,
+    String suffix,
+  ) {
+    final fromCandidates = <String>[
+      p.join(fromRelativeDirectory, '$featureSnake$suffix'),
+      if (featureSnake != featureName)
+        p.join(fromRelativeDirectory, '$featureName$suffix'),
+    ];
+
+    for (final fromRelativePath in fromCandidates) {
+      final sourceFile = File(p.join(baseDir.path, fromRelativePath));
+      if (!sourceFile.existsSync()) {
+        continue;
+      }
+
+      final fileName = p.basename(fromRelativePath);
+      final targetDir = Directory(p.join(baseDir.path, toRelativeDirectory));
+      if (!targetDir.existsSync()) {
+        targetDir.createSync(recursive: true);
+      }
+
+      final targetPath = p.join(targetDir.path, fileName);
+      final targetFile = File(targetPath);
+      if (targetFile.existsSync()) {
+        targetFile.deleteSync();
+      }
+
+      sourceFile.renameSync(targetPath);
+    }
+  }
+
   void deleteEntityUsecase(String prefix, {String suffix = ''}) {
     deletePath(
-      p.join(
-        'domain',
-        'usecases',
-        '$prefix$entitySnake${suffix}_usecase.dart',
-      ),
+      p.join('domain', 'usecases', '$prefix$entitySnake${suffix}_usecase.dart'),
     );
     if (entitySnake != entityName) {
       deletePath(
@@ -60,7 +91,8 @@ void run(HookContext context) {
 
   final includeDataLayer = vars['include_data_layer'] as bool? ?? true;
   final includeDomainLayer = vars['include_domain_layer'] as bool? ?? true;
-  final includeStateManagement = vars['include_state_management'] as bool? ?? true;
+  final includeStateManagement =
+      vars['include_state_management'] as bool? ?? true;
   final hasRemote = vars['has_remote_datasource'] as bool? ?? true;
   final hasLocalCache = vars['has_local_cache'] as bool? ?? true;
   final hasList = vars['has_list'] as bool? ?? true;
@@ -110,6 +142,12 @@ void run(HookContext context) {
     } else {
       deleteFeatureFile(p.join('presentation', 'blocs'), '_bloc.dart');
       deleteFeatureFile(p.join('presentation', 'blocs'), '_event.dart');
+      moveFeatureFile(
+        p.join('presentation', 'blocs'),
+        p.join('presentation', 'cubits'),
+        '_state.dart',
+      );
+      deleteFeatureFile(p.join('presentation', 'blocs'), '_state.dart');
     }
   }
 
@@ -133,6 +171,11 @@ void run(HookContext context) {
     featureName,
     p.join('presentation', 'blocs', '${featureName}_state.dart'),
   );
+  _renderMustacheFile(
+    context,
+    featureName,
+    p.join('presentation', 'cubits', '${featureName}_state.dart'),
+  );
 }
 
 String _toSnakeCase(String value) {
@@ -145,7 +188,9 @@ String _toSnakeCase(String value) {
     final isLower = char.toLowerCase() == char && char.toUpperCase() != char;
     final isDigit = int.tryParse(char) != null;
 
-    if ((isUpper || (char == '-' || char == ' ')) && previous != null && previous != '_') {
+    if ((isUpper || (char == '-' || char == ' ')) &&
+        previous != null &&
+        previous != '_') {
       buffer.write('_');
     }
 
@@ -160,20 +205,31 @@ String _toSnakeCase(String value) {
     }
   }
 
-  final result = buffer.toString().replaceAll(RegExp('_+'), '_').replaceAll(RegExp(r'^_|_$'), '');
+  final result = buffer
+      .toString()
+      .replaceAll(RegExp('_+'), '_')
+      .replaceAll(RegExp(r'^_|_$'), '');
   return result.isEmpty ? value.toLowerCase() : result;
 }
 
 String _toPascalCase(String value) {
   final snake = _toSnakeCase(value);
   if (snake.isEmpty) return '';
-  return snake.split('_').where((part) => part.isNotEmpty).map((part) => part[0].toUpperCase() + part.substring(1)).join();
+  return snake
+      .split('_')
+      .where((part) => part.isNotEmpty)
+      .map((part) => part[0].toUpperCase() + part.substring(1))
+      .join();
 }
 
 String _toTitleCase(String value) {
   final snake = _toSnakeCase(value);
   if (snake.isEmpty) return '';
-  return snake.split('_').where((part) => part.isNotEmpty).map((part) => part[0].toUpperCase() + part.substring(1)).join(' ');
+  return snake
+      .split('_')
+      .where((part) => part.isNotEmpty)
+      .map((part) => part[0].toUpperCase() + part.substring(1))
+      .join(' ');
 }
 
 void _renderMustacheFile(
@@ -231,7 +287,9 @@ String _renderTemplate(String source, Map<String, dynamic> vars) {
     }
 
     final prefix = tag[0];
-    final name = (prefix == '#' || prefix == '^' || prefix == '/') ? tag.substring(1).trim() : tag;
+    final name = (prefix == '#' || prefix == '^' || prefix == '/')
+        ? tag.substring(1).trim()
+        : tag;
 
     if (prefix == '#') {
       final section = _extractSection(source, index, name);
