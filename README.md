@@ -12,6 +12,10 @@ A Mason brick for generating Clean Architecture feature modules for Flutter proj
 - Optional remote/local datasource generation
 - Cubit or BLoC state management
 - Functional error handling with `TaskEither`
+- Domain usecases implement `BaseUseCase<Params, Result>`
+- Mode-aware state location:
+  - BLoC: `presentation/blocs/<feature>_state.dart`
+  - Cubit: `presentation/cubits/<feature>_state.dart`
 
 ## Project Links
 
@@ -41,7 +45,7 @@ mason add feature_clean
 ```bash
 mason add feature_clean \
   --git-url https://github.com/biendo27/feature_clean_brick.git \
-  --git-ref v1.0.0
+  --git-ref v1.1.0
 ```
 
 ## Usage

@@ -1,7 +1,7 @@
 {{#include_domain_layer}}{{#has_detail}}part of '../../{{#snakeCase}}{{feature_name}}{{/snakeCase}}.dart';
 
 @lazySingleton
-class Get{{#pascalCase}}{{entity_name}}{{/pascalCase}}UseCase implements UseCaseWithParams<String, {{#pascalCase}}{{entity_name}}{{/pascalCase}}Entity> {
+class Get{{#pascalCase}}{{entity_name}}{{/pascalCase}}UseCase implements BaseUseCase<String, {{#pascalCase}}{{entity_name}}{{/pascalCase}}Entity> {
   final I{{#pascalCase}}{{feature_name}}{{/pascalCase}}Repository _repository;
 
   Get{{#pascalCase}}{{entity_name}}{{/pascalCase}}UseCase(this._repository);

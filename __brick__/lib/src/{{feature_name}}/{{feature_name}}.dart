@@ -29,9 +29,10 @@ part 'domain/repositories/i_{{#snakeCase}}{{feature_name}}{{/snakeCase}}_reposit
 {{/has_delete}}{{/include_domain_layer}}
 
 //* Presentation Layer - BLoC or Cubit - States, Events, Cubits, Blocs
-{{#include_state_management}}part 'presentation/blocs/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_state.dart';
-{{#use_bloc}}part 'presentation/blocs/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_bloc.dart';
-part 'presentation/blocs/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_event.dart';{{/use_bloc}}{{^use_bloc}}part 'presentation/cubits/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_cubit.dart';{{/use_bloc}}{{/include_state_management}}
+{{#include_state_management}}{{#use_bloc}}part 'presentation/blocs/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_state.dart';
+part 'presentation/blocs/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_bloc.dart';
+part 'presentation/blocs/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_event.dart';{{/use_bloc}}{{^use_bloc}}part 'presentation/cubits/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_state.dart';
+part 'presentation/cubits/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_cubit.dart';{{/use_bloc}}{{/include_state_management}}
 
 //* Presentation Layer - Pages
 part 'presentation/pages/{{#snakeCase}}{{feature_name}}{{/snakeCase}}_page.dart';
